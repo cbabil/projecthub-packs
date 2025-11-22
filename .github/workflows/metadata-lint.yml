@@ -1,0 +1,157 @@
+name: Metadata and Structure
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Validate packs, templates, and libraries
+        run: |
+          python - <<'PY'
+import sys
+import yaml
+import pathlib
+
+root = pathlib.Path('.')
+required_item_files = ['metadata.yaml', 'README.md', 'LICENSE']
+# Nested items inside packs should not carry their own README to avoid duplication
+required_nested_files = []
+item_fields = {'name', 'summary', 'language', 'tags', 'version', 'license', 'compatibility', 'maintainer'}
+pack_fields = {'name', 'technology', 'summary', 'contents', 'version', 'license', 'compatibility', 'maintainer', 'tags'}
+allowed_types = {'template', 'workspace', 'configuration', 'library'}
+
+missing = []
+errors = []
+
+def check_required_files(base: pathlib.Path, rel: str, files):
+    for fname in files:
+        fpath = base / fname
+        if not fpath.exists():
+            missing.append(f"{rel}: missing {fname}")
+            continue
+        if fpath.stat().st_size == 0:
+            errors.append(f"{rel}: {fname} is empty")
+
+def check_metadata(path: pathlib.Path, required_fields: set, rel: str):
+    meta_path = path / 'metadata.yaml'
+    if not meta_path.exists():
+        return
+    try:
+        data = yaml.safe_load(meta_path.read_text()) or {}
+    except Exception as exc:
+        errors.append(f"{rel}: metadata.yaml parse error ({exc})")
+        return
+    absent = sorted(required_fields - set(data.keys()))
+    if absent:
+        errors.append(f"{rel}: metadata.yaml missing fields: {', '.join(absent)}")
+
+    # If this is pack metadata, validate contents entries
+    if set(required_fields) == pack_fields:
+        contents = data.get('contents', []) or []
+        if not isinstance(contents, list) or not contents:
+            errors.append(f"{rel}: contents must be a non-empty list")
+        for idx, entry in enumerate(contents):
+            if not isinstance(entry, dict):
+                errors.append(f"{rel}: contents[{idx}] must be a mapping")
+                continue
+            etype = entry.get('type')
+            path = entry.get('path')
+            if etype not in allowed_types:
+                errors.append(f"{rel}: contents[{idx}] type must be one of {sorted(allowed_types)}")
+            if not path:
+                errors.append(f"{rel}: contents[{idx}] path missing")
+            else:
+                item_path = (pathlib.Path(rel) / path).resolve()
+                if not item_path.exists():
+                    errors.append(f"{rel}: contents[{idx}] path does not exist: {path}")
+
+# Check standalone templates/libraries
+for path in list(root.glob('templates/*/*')) + list(root.glob('libraries/*/*')):
+    if not path.is_dir():
+        continue
+    rel = path.as_posix()
+    check_required_files(path, rel, required_item_files)
+    check_metadata(path, item_fields, rel)
+
+# Check packs
+for pack in root.glob('packs/*'):
+    if not pack.is_dir():
+        continue
+    rel = pack.as_posix()
+    check_required_files(pack, rel, required_item_files)
+    check_metadata(pack, pack_fields, rel)
+
+    # templates and libraries within a pack
+    for item in list((pack / 'templates').glob('*')) + list((pack / 'libraries').glob('*')):
+        if not item.is_dir():
+            continue
+        item_rel = item.as_posix()
+        if required_nested_files:
+            check_required_files(item, item_rel, required_nested_files)
+        # Optional metadata for nested items
+        if (item / 'metadata.yaml').exists():
+            check_metadata(item, item_fields, item_rel)
+
+if missing or errors:
+    for line in missing + errors:
+        print(line)
+    sys.exit(1)
+
+print('All templates/libraries passed validation.')
+PY
+
+      - name: Enforce kebab-case paths
+        run: |
+          python - <<'PY'
+import re
+import sys
+import pathlib
+
+pattern = re.compile(r'^[a-z0-9]+(?:-[a-z0-9]+)*$')
+problems = []
+for base in ['templates', 'libraries']:
+    for path in pathlib.Path(base).glob('*/*'):
+        if not path.is_dir():
+            continue
+        _, category, name = path.parts[:3]
+        if not pattern.fullmatch(category):
+            problems.append(f"{path}: category not kebab-case")
+        if not pattern.fullmatch(name):
+            problems.append(f"{path}: name not kebab-case")
+
+for pack in pathlib.Path('packs').glob('*'):
+    if not pack.is_dir():
+        continue
+    tech = pack.name
+    if not pattern.fullmatch(tech):
+        problems.append(f"{pack}: technology name not kebab-case")
+    for item in list((pack / 'templates').glob('*')) + list((pack / 'libraries').glob('*')):
+        if not item.is_dir():
+            continue
+        name = item.name
+        if not pattern.fullmatch(name):
+            problems.append(f"{item}: name not kebab-case")
+
+if problems:
+    for p in problems:
+        print(p)
+    sys.exit(1)
+print('Path casing OK')
+PY

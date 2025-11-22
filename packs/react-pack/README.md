@@ -3,8 +3,8 @@
 React-focused assets for ProjectHub projects. Currently includes a .gitignore template; React starters can be added here over time.
 
 ## Contents
-- `templates/react-gitignore`: Ignore patterns tailored for React/Node projects.
-- `templates/react-workspace`: Vite-based React workspace starter (src/public, eslint, vite config).
+- `templates/react-gitignore`: Ignore patterns tailored for React/Node projects (`react.gitignore`).
+- `templates/react-workspace`: Vite-based React workspace starter (`package.json`, `vite.config.js`, `.eslintrc.json`).
 
 ## How to use
 - For `.gitignore`: copy `templates/react-gitignore/react.gitignore` to your project root and rename to `.gitignore` (or append).

@@ -1,73 +1,61 @@
 # Contributing to ProjectHub Packs
 
-Our contribution process is intentionally strict to keep quality high. Completing every step is required unless noted as "soft gate".
+Our process is strict by design to keep quality high. Complete every step unless explicitly marked optional.
 
 ## Prerequisites
-- Familiarize yourself with the catalog and style rules in the [Wiki](../../wiki).
-- Use kebab-case names for directories and files.
-- Choose an existing category when possible; propose a new one via issue if unclear.
+- Read the catalog and rules in the [Wiki](../../wiki).
+- Use kebab-case for all folder/file names.
+- Contribute via **packs** (preferred); standalone items are discouraged unless maintainers request them.
 
-## Directory and file layout
-- Packs: `packs/<tech>/`
-  - Required files: `metadata.yaml`, `README.md`, `LICENSE`
-  - Optional subfolders (when present):
-    - `templates/<name>/` (no separate README; item metadata optional)
-    - `libraries/<name>/` (no separate README; item metadata optional)
-- Standalone templates: `templates/<category>/<name>/` (require `metadata.yaml`, `README.md`, `LICENSE`)
-- Standalone libraries: `libraries/<category>/<name>/` (require `metadata.yaml`, `README.md`, `LICENSE`)
-- Use kebab-case for all path parts.
+## Directory and file layout (current repo)
+- Packs: `packs/<pack-name>/`
+  - Required: `metadata.yaml`, `README.md`, `LICENSE`, `templates/`
+  - Templates/workspaces live directly under `templates/` (no category subfolders today).
+  - Items inside a pack do **not** have their own README/metadata; everything is declared at pack level.
+- Standalone templates/libraries outside packs: avoid unless maintainers approve in an issue/PR discussion.
 
-## `metadata.yaml` required fields (templates/libraries)
+## Pack-level `metadata.yaml` (required fields)
 ```yaml
-name: my-template
-summary: One-line purpose statement
-language: javascript # or python, go, etc.
-tags: [web, api, starter]
-version: 0.1.0
+name: react-pack                 # matches folder name
+technology: react                # display/filter tag
+summary: React-focused assets including .gitignore
+contents:                        # every item listed with type + path
+  - type: template               # template | workspace
+    path: templates/react-gitignore
+  - type: workspace
+    path: templates/react-workspace
+version: 0.1.0                   # SemVer
 license: MIT
-compatibility: "ProjectHub >=1.0"
+compatibility: "ProjectHub >=1.0" # optional note
 maintainer: "Name <email@example.com>"
+tags: [react, node, gitignore]    # optional
+releasedOn: 2025-11-20            # optional; shown as “Released On” if present
 ```
 
-## Pack-level `metadata.yaml` required fields
-```yaml
-name: node-rest-pack
-technology: nodejs
-summary: Starter assets for building REST APIs with Node.js
-contents:
-  - type: template          # template | workspace | configuration | library
-    path: templates/basic-api
-  - type: library
-    path: libraries/logging-middleware
-version: 0.1.0
-license: MIT
-compatibility: "ProjectHub >=1.0"
-maintainer: "Name <email@example.com>"
-tags: [node, rest, starter]
-```
-
-### `type` field
-- Allowed values: `template`, `workspace`, `configuration`, `library`.
-- Each entry in `contents` must include `type` and `path`.
+Rules:
+- `path` is relative to the pack root and must exist in the ZIP.
+- Allowed `type`: `template` or `workspace` (use `workspace` for full starters, `template` for configs/single-file drops).
+- Per-template `metadata.yaml` is **not used**; keep metadata centralized.
 
 ## Pull request steps
-1. Fork/branch and add your item in the correct path.
-2. Ensure the required files exist and are filled out (pack level). Nested items in packs do not need their own README, license, or metadata; standalone items do.
-3. Update the Wiki catalog entry (or add a note in the PR describing the required update). Soft gate: the PR can proceed but missing wiki updates slow review.
-4. Submit the PR using the template and complete all checkboxes.
-5. Confirm all required checks are green:
-   - **Hard gates**: metadata lint + structure checks.
-   - **Soft gates**: README link/spell checks. Fix these unless there is a justified exception.
+1. Fork and branch; add your pack under `packs/<pack-name>/` with required files and updated `contents`.
+2. Bump `version` and (if used) `releasedOn`.
+3. Zip the pack root (no extra top-level folder) and confirm install via ProjectHub Settings → Packs using the ZIP URL (local `file://` is fine for test).
+4. Update the Wiki page if structure or instructions change (or note the needed update in the PR).
+5. Open the PR, complete all template checkboxes, and link to the test evidence.
+6. Ensure checks pass:
+   - **Hard gates:** metadata/structure lint.
+   - **Soft gates:** link/spell checks—fix unless justified.
 
 ## Issues
-- Use the “New template request” issue template to propose categories or needed templates.
-- Use the “Bug in template/library” template to report defects.
-- Use the “Doc/wiki fix” template for documentation improvements.
+- “New pack/template request” for new ideas.
+- “Bug” for defects in existing packs.
+- “Doc/wiki fix” for documentation tweaks.
 
 ## Style rules
-- Keep READMEs concise: purpose, prerequisites, setup steps, usage example, config options, maintenance/updates.
-- Prefer MIT or Apache-2.0 licenses; if different, explain why in the PR.
-- Keep metadata accurate and updated when making changes.
+- Keep READMEs concise: purpose, contents list, how to use, compatibility.
+- Prefer MIT or Apache-2.0 licenses; justify exceptions.
+- Keep metadata accurate and in sync with files and releases.
 
 ## Code of Conduct
 By participating, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
