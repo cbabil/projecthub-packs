@@ -1,0 +1,13 @@
+name: python-pack
+technology: python
+summary: Python-focused assets including .gitignore
+contents:
+  - type: template
+    path: templates/python-gitignore
+  - type: workspace
+    path: templates/python-workspace
+version: 0.1.0
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [python, gitignore]

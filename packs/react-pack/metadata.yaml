@@ -1,0 +1,13 @@
+name: react-pack
+technology: react
+summary: React-focused assets including .gitignore
+contents:
+  - type: template
+    path: templates/react-gitignore
+  - type: workspace
+    path: templates/react-workspace
+version: 0.1.0
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [react, node, gitignore]
