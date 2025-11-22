@@ -1,0 +1,23 @@
+name: "Doc or wiki fix"
+description: Improve repository docs or wiki content
+labels: [documentation]
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: What needs updating?
+      description: Specify README section, wiki page, or path.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Provide the copy or outline you recommend.
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Why this improves clarity or accuracy.

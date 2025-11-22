@@ -1,0 +1,35 @@
+name: "New template or library request"
+description: Suggest a new template/library or category
+labels: [enhancement]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Proposed name
+      placeholder: graphql-api-starter
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      placeholder: templates/backend or libraries/sdk
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary / use case
+      description: What problem does this solve? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements or constraints
+      description: Languages, frameworks, minimum ProjectHub version, licensing, etc.
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to similar starters or libraries for inspiration.

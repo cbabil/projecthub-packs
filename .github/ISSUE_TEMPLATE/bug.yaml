@@ -1,0 +1,38 @@
+name: "Bug in template or library"
+description: Report a defect in an existing template/library
+labels: [bug]
+body:
+  - type: input
+    id: item
+    attributes:
+      label: Item path
+      description: Path like templates/<category>/<name> or libraries/<category>/<name>
+      placeholder: templates/api/rest-starter
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What happened?
+      description: Describe the bug and the expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / versions
+      description: Include ProjectHub version, language/runtime versions, OS.
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
