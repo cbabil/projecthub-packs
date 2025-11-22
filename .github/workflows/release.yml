@@ -28,10 +28,67 @@ jobs:
           done
           ls -l dist
 
+      - name: Install manifest deps
+        run: npm install yaml
+
+      - name: Generate packs manifest
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const crypto = require('crypto');
+          const YAML = require('yaml');
+
+          const distDir = path.join(process.cwd(), 'dist');
+          const packsDir = path.join(process.cwd(), 'packs');
+          const releaseTag = process.env.RELEASE_TAG || 'latest';
+
+          const packs = [];
+
+          for (const entry of fs.readdirSync(packsDir, { withFileTypes: true })) {
+            if (!entry.isDirectory()) continue;
+            const name = entry.name;
+            const metaPath = path.join(packsDir, name, 'metadata.yaml');
+            if (!fs.existsSync(metaPath)) continue;
+            const meta = YAML.parse(fs.readFileSync(metaPath, 'utf8')) || {};
+            const zipName = `${name}.zip`;
+            const zipPath = path.join(distDir, zipName);
+            const hash = fs.existsSync(zipPath)
+              ? crypto.createHash('sha256').update(fs.readFileSync(zipPath)).digest('hex')
+              : undefined;
+
+            packs.push({
+              id: name,
+              name: meta.name || name,
+              description: meta.summary || '',
+              summary: meta.summary || '',
+              version: meta.version || releaseTag,
+              technology: meta.technology,
+              license: meta.license,
+              zip: zipName,
+              checksum: hash ? `sha256:${hash}` : undefined
+            });
+          }
+
+          const manifest = {
+            version: releaseTag,
+            generatedAt: new Date().toISOString(),
+            packs
+          };
+
+          fs.writeFileSync(path.join(distDir, 'packs-manifest.json'), JSON.stringify(manifest, null, 2));
+          console.log('Manifest written with', packs.length, 'packs');
+          NODE
+
+        env:
+          RELEASE_TAG: ${{ github.event.inputs.tag }}
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/*.zip
+          files: |
+            dist/*.zip
+            dist/packs-manifest.json
           tag_name: ${{ github.event.inputs.tag }}
           name: ${{ github.event.inputs.tag }}
           draft: false

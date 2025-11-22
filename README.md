@@ -17,6 +17,7 @@ ProjectHub Packs is the canonical hub for community templates and libraries used
 ## Using this repository
 - Browse the catalog in the [Wiki](../../wiki) for the latest packs and guidance.
 - Packs live under `packs/<pack-name>/` (current: `react-pack`, `python-pack`). Each pack includes `metadata.yaml`, `README.md`, `LICENSE`, and a `templates/` folder containing item folders listed in `metadata.yaml:contents`.
+- Releases publish one ZIP per pack **and** a `packs-manifest.json` that lists name, description, version, license, technology, download filename, and SHA-256 checksum. ProjectHub reads this manifest to show pack details without downloading ZIPs.
 - Current packs do **not** use per-template metadata; everything is declared in the pack’s `metadata.yaml` with `type` (`template` or `workspace`) and `path` (relative to the pack root).
 - Standalone items outside packs are not used at the moment; contribute via packs unless instructed otherwise.
 - Install/update via ProjectHub Settings → Packs using a ZIP of the pack root (no extra nesting).
