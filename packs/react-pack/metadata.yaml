@@ -4,9 +4,19 @@ summary: React-focused assets including .gitignore
 contents:
   - type: template
     path: templates/react-gitignore
+    files:
+      - source: react.gitignore
+        target: .gitignore
   - type: workspace
     path: templates/react-workspace
-version: 0.1.0
+    files:
+      - source: package.json
+        target: package.json
+      - source: tsconfig.json
+        target: tsconfig.json
+      - source: vite.config.ts
+        target: vite.config.ts
+version: 0.1.1
 license: MIT
 compatibility: "ProjectHub >=1.0"
 maintainer: "ProjectHub Team <maintainers@projecthub.dev>"

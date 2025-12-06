@@ -4,9 +4,15 @@ summary: Python-focused assets including .gitignore
 contents:
   - type: template
     path: templates/python-gitignore
+    files:
+      - source: python.gitignore
+        target: .gitignore
   - type: workspace
     path: templates/python-workspace
-version: 0.1.0
+    files:
+      - source: pyproject.toml
+        target: pyproject.toml
+version: 0.1.1
 license: MIT
 compatibility: "ProjectHub >=1.0"
 maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
