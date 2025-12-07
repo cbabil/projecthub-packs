@@ -1,12 +1,17 @@
-# ProjectHub Packs
+<p>
+  <img src="assets/projecthub-packs.png" alt="ProjectHub Packs" width="320" align="left" style="margin-right:12px;">
+  <em>ProjectHub Packs: curated, versioned templates and starters installable via a single ZIP URL.</em>
+</p>
+
+<br clear="both">
+
+<br>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
-
-> Curated, versioned packs of templates and starters for ProjectHub — installable via a single ZIP URL.
 
 ProjectHub Packs is the canonical hub for community templates and libraries used with ProjectHub. We aim to:
 
@@ -57,3 +62,10 @@ Open an issue using the appropriate template (bug, new template request, doc fix
 [issues-url]: https://github.com/cbabil/projecthub-packs/issues
 [license-shield]: https://img.shields.io/github/license/cbabil/projecthub-packs.svg?style=for-the-badge
 [license-url]: https://github.com/cbabil/projecthub-packs/blob/main/LICENSE
+
+<p>
+  <img src="assets/projecthub-packs.png" alt="ProjectHub Packs" width="320" align="left" style="margin-right:12px;">
+  <em>ProjectHub Packs: curated, versioned templates and starters installable via a single ZIP URL.</em>
+</p>
+
+<br clear="both">
