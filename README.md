@@ -50,7 +50,6 @@ ProjectHub Packs is the canonical hub for community templates and libraries used
 ## Getting help
 Open an issue using the appropriate template (bug, new template request, doc fix).
 
----
 <!-- MARKDOWN REFERENCE LINKS -->
 [contributors-shield]: https://img.shields.io/github/contributors/cbabil/projecthub-packs.svg?style=for-the-badge
 [contributors-url]: https://github.com/cbabil/projecthub-packs/graphs/contributors
@@ -62,10 +61,3 @@ Open an issue using the appropriate template (bug, new template request, doc fix
 [issues-url]: https://github.com/cbabil/projecthub-packs/issues
 [license-shield]: https://img.shields.io/github/license/cbabil/projecthub-packs.svg?style=for-the-badge
 [license-url]: https://github.com/cbabil/projecthub-packs/blob/main/LICENSE
-
-<p>
-  <img src="assets/projecthub-packs.png" alt="ProjectHub Packs" width="320" align="left" style="margin-right:12px;">
-  <em>ProjectHub Packs: curated, versioned templates and starters installable via a single ZIP URL.</em>
-</p>
-
-<br clear="both">
