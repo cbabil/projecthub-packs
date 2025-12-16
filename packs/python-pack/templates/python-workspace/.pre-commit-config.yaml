@@ -1,0 +1,58 @@
+repos:
+  # Sensitive data checks
+  - repo: local
+    hooks:
+      - id: check-secrets
+        name: Check for secrets
+        entry: bash -c '
+          EMAIL=$(git config user.email);
+          USERNAME=$(git config user.name);
+          for file in "$@"; do
+            if [ -n "$EMAIL" ] && grep -q "$EMAIL" "$file" 2>/dev/null; then
+              echo "ERROR: Email ($EMAIL) found in $file";
+              exit 1;
+            fi;
+            if [ -n "$USERNAME" ] && grep -q "$USERNAME" "$file" 2>/dev/null; then
+              echo "ERROR: Username ($USERNAME) found in $file";
+              exit 1;
+            fi;
+            if grep -qE "(api[_-]?key|secret[_-]?key|password)\s*[:=]\s*[\"'"'"'][^\"'"'"']{8,}" "$file" 2>/dev/null; then
+              echo "ERROR: Potential secrets found in $file";
+              exit 1;
+            fi;
+          done
+        '
+        language: system
+        types: [text]
+
+      - id: check-sensitive-files
+        name: Check for sensitive files
+        entry: bash -c '
+          for file in "$@"; do
+            if echo "$file" | grep -qE "\.(env|pem|key|p12|pfx|credentials)$"; then
+              echo "ERROR: Sensitive file staged: $file";
+              exit 1;
+            fi;
+          done
+        '
+        language: system
+        types: [file]
+
+  # Ruff linting and formatting
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.8.1
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # Type checking
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: mypy
+        language: system
+        types: [python]
+        args: [src]
+        pass_filenames: false

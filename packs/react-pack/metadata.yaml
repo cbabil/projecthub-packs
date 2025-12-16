@@ -1,6 +1,6 @@
 name: react-pack
 technology: react
-summary: React-focused assets including .gitignore
+summary: Modern React + TypeScript workspace with Vite, ESLint, and Prettier
 contents:
   - type: template
     path: templates/react-gitignore
@@ -16,8 +16,26 @@ contents:
         target: tsconfig.json
       - source: vite.config.ts
         target: vite.config.ts
-version: 0.1.1
+      - source: eslint.config.js
+        target: eslint.config.js
+      - source: .prettierrc
+        target: .prettierrc
+      - source: .prettierignore
+        target: .prettierignore
+      - source: index.html
+        target: index.html
+      - source: src/main.tsx
+        target: src/main.tsx
+      - source: src/App.tsx
+        target: src/App.tsx
+      - source: src/index.css
+        target: src/index.css
+      - source: src/vite-env.d.ts
+        target: src/vite-env.d.ts
+      - source: .husky/pre-commit
+        target: .husky/pre-commit
+version: 0.2.1
 license: MIT
 compatibility: "ProjectHub >=1.0"
 maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
-tags: [react, node, gitignore]
+tags: [react, typescript, vite, eslint, prettier]
