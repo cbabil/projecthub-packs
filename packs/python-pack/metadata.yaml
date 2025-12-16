@@ -1,6 +1,6 @@
 name: python-pack
 technology: python
-summary: Python-focused assets including .gitignore
+summary: Modern Python workspace with ruff, mypy, and pytest
 contents:
   - type: template
     path: templates/python-gitignore
@@ -12,8 +12,20 @@ contents:
     files:
       - source: pyproject.toml
         target: pyproject.toml
-version: 0.1.1
+      - source: Makefile
+        target: Makefile
+      - source: README.md
+        target: README.md
+      - source: src/__init__.py
+        target: src/__init__.py
+      - source: src/py.typed
+        target: src/py.typed
+      - source: tests/__init__.py
+        target: tests/__init__.py
+      - source: .pre-commit-config.yaml
+        target: .pre-commit-config.yaml
+version: 0.2.1
 license: MIT
 compatibility: "ProjectHub >=1.0"
 maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
-tags: [python, gitignore]
+tags: [python, ruff, mypy, pytest]
