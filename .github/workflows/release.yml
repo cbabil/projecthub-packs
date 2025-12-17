@@ -13,10 +13,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout (without external action)
+        run: |
+          git clone --depth 1 https://github.com/${{ github.repository }}.git .
+          git fetch --tags
 
       - name: Package packs as ZIPs
         run: |
@@ -83,15 +83,20 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.inputs.tag }}
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            dist/*.zip
+      - name: Create GitHub Release (without external action)
+        run: |
+          # Create the tag
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $TAG" || true
+          git push origin "$TAG" || true
+
+          # Create release and upload assets using gh CLI
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --notes "Release $TAG" \
+            dist/*.zip \
             dist/packs-manifest.json
-          tag_name: ${{ github.event.inputs.tag }}
-          name: ${{ github.event.inputs.tag }}
-          draft: false
-          prerelease: false
         env:
+          TAG: ${{ github.event.inputs.tag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
