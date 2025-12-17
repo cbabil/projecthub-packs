@@ -31,8 +31,8 @@ ProjectHub Packs is the canonical hub for community templates and libraries used
 
 | Pack         | Description                                | Version |
 | ------------ | ------------------------------------------ | ------- |
-| react-pack   | React-focused assets including .gitignore  | 0.1.1   |
-| python-pack  | Python-focused assets including .gitignore | 0.1.1   |
+| react-pack   | React-focused assets including .gitignore  | 0.2.1   |
+| python-pack  | Python-focused assets including .gitignore | 0.2.1   |
 
 ## Contributing (strict)
 1. Read the full guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) and the detailed steps in the Wiki’s “Submission Guide”.
