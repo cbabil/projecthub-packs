@@ -1,4 +1,5 @@
 name: python-pack
+category: Backend
 technology: python
 summary: Modern Python workspace with ruff, mypy, and pytest
 contents:
