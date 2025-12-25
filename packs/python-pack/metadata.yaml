@@ -25,7 +25,7 @@ contents:
         target: tests/__init__.py
       - source: .pre-commit-config.yaml
         target: .pre-commit-config.yaml
-version: 0.2.1
+version: 0.2.2
 license: MIT
 compatibility: "ProjectHub >=1.0"
 maintainer: "ProjectHub Team <maintainers@projecthub.dev>"

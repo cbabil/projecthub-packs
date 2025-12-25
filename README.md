@@ -33,8 +33,8 @@ We aim to:
 
 | Pack         | Description                                | Version |
 | ------------ | ------------------------------------------ | ------- |
-| react-pack   | React-focused assets including .gitignore  | 0.2.1   |
-| python-pack  | Python-focused assets including .gitignore | 0.2.1   |
+| react-pack   | React-focused assets including .gitignore  | 0.2.2   |
+| python-pack  | Python-focused assets including .gitignore | 0.2.2   |
 
 ## Contributing (strict)
 1. Read the full guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) and the detailed steps in the Wiki’s “Submission Guide”.
