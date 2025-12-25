@@ -1,4 +1,5 @@
 name: react-pack
+category: Frontend
 technology: react
 summary: Modern React + TypeScript workspace with Vite, ESLint, and Prettier
 contents:

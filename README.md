@@ -13,7 +13,9 @@
 [![Issues][issues-shield]][issues-url]
 [![License][license-shield]][license-url]
 
-ProjectHub Packs is the canonical hub for community templates and libraries used with ProjectHub. We aim to:
+ProjectHub Packs is the **official marketplace** for community templates and libraries used with ProjectHub. This repository is built into ProjectHub by default—users can install packs from here without any configuration.
+
+We aim to:
 
 - Offer ready-to-consume, best-practice templates and libraries.
 - Provide a clear, strict submission pathway for contributors.
@@ -46,6 +48,16 @@ ProjectHub Packs is the canonical hub for community templates and libraries used
 ## Governance
 - Branch protection should require passing hard-gate checks before merge; squash merges recommended.
 - Security reporting details are in [SECURITY.md](SECURITY.md).
+
+## Creating your own marketplace
+
+Want to host your own packs? ProjectHub supports multiple marketplaces. Users can add your marketplace alongside the official one.
+
+1. Create a GitHub repository with packs under `packs/<pack-name>/`
+2. Publish releases with ZIP files and a `packs-manifest.json`
+3. Users add your marketplace via `owner/repo` in Settings → Packs
+
+See the [Wiki: Authoring a Pack](../../wiki/Authoring-a-pack#creating-your-own-marketplace) for full instructions.
 
 ## Getting help
 Open an issue using the appropriate template (bug, new template request, doc fix).
