@@ -1,0 +1,16 @@
+[package]
+name = "{{PROJECT_NAME}}"
+version = "0.1.0"
+edition = "2021"
+authors = ["{{AUTHOR_NAME}}"]
+description = "A Rust project"
+license = "MIT"
+
+[dependencies]
+
+[dev-dependencies]
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"

@@ -1,0 +1,4 @@
+name: rust-gitignore
+description: Comprehensive .gitignore for Rust projects
+type: file
+outputName: .gitignore

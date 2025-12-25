@@ -1,0 +1,12 @@
+name: rust-pack
+version: 0.1.0
+description: Rust starter templates with workspace setup and common configurations
+author: ProjectHub
+category: Backend
+icon: rust
+releasedOn: "2025-12-25"
+tags:
+  - rust
+  - cargo
+  - backend
+  - systems

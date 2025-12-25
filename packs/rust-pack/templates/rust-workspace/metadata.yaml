@@ -1,0 +1,10 @@
+name: rust-workspace
+description: Complete Rust workspace with Cargo configuration and formatting
+type: folder
+placeholders:
+  - key: PROJECT_NAME
+    label: Project Name
+    default: my-rust-project
+  - key: AUTHOR_NAME
+    label: Author Name
+    default: Your Name
