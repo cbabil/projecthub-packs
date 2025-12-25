@@ -1,0 +1,40 @@
+name: svelte-pack
+category: Frontend
+technology: svelte
+summary: Modern Svelte 5 + TypeScript workspace with Vite, ESLint, and Prettier
+contents:
+  - type: template
+    path: templates/svelte-gitignore
+    files:
+      - source: svelte.gitignore
+        target: .gitignore
+  - type: workspace
+    path: templates/svelte-workspace
+    files:
+      - source: package.json
+        target: package.json
+      - source: tsconfig.json
+        target: tsconfig.json
+      - source: vite.config.ts
+        target: vite.config.ts
+      - source: svelte.config.js
+        target: svelte.config.js
+      - source: eslint.config.js
+        target: eslint.config.js
+      - source: .prettierrc
+        target: .prettierrc
+      - source: index.html
+        target: index.html
+      - source: src/main.ts
+        target: src/main.ts
+      - source: src/App.svelte
+        target: src/App.svelte
+      - source: src/vite-env.d.ts
+        target: src/vite-env.d.ts
+      - source: src/lib/Counter.svelte
+        target: src/lib/Counter.svelte
+version: 0.2.2
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [svelte, typescript, vite, eslint, prettier]
