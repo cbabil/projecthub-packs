@@ -1,0 +1,40 @@
+name: vue-pack
+category: Frontend
+technology: vue
+summary: Modern Vue 3 + TypeScript workspace with Vite, ESLint, and Prettier
+contents:
+  - type: template
+    path: templates/vue-gitignore
+    files:
+      - source: vue.gitignore
+        target: .gitignore
+  - type: workspace
+    path: templates/vue-workspace
+    files:
+      - source: package.json
+        target: package.json
+      - source: tsconfig.json
+        target: tsconfig.json
+      - source: tsconfig.node.json
+        target: tsconfig.node.json
+      - source: vite.config.ts
+        target: vite.config.ts
+      - source: eslint.config.js
+        target: eslint.config.js
+      - source: .prettierrc
+        target: .prettierrc
+      - source: index.html
+        target: index.html
+      - source: src/main.ts
+        target: src/main.ts
+      - source: src/App.vue
+        target: src/App.vue
+      - source: src/vite-env.d.ts
+        target: src/vite-env.d.ts
+      - source: src/components/HelloWorld.vue
+        target: src/components/HelloWorld.vue
+version: 0.2.2
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [vue, typescript, vite, eslint, prettier]

@@ -1,0 +1,32 @@
+name: nodejs-pack
+category: Backend
+technology: nodejs
+summary: Modern Node.js + TypeScript workspace with Express, ESLint, and Prettier
+contents:
+  - type: template
+    path: templates/nodejs-gitignore
+    files:
+      - source: nodejs.gitignore
+        target: .gitignore
+  - type: workspace
+    path: templates/nodejs-workspace
+    files:
+      - source: package.json
+        target: package.json
+      - source: tsconfig.json
+        target: tsconfig.json
+      - source: .eslintrc.json
+        target: .eslintrc.json
+      - source: .prettierrc
+        target: .prettierrc
+      - source: .prettierignore
+        target: .prettierignore
+      - source: src/index.ts
+        target: src/index.ts
+      - source: src/app.ts
+        target: src/app.ts
+version: 0.2.2
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [nodejs, typescript, express, eslint, prettier]

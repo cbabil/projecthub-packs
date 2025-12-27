@@ -23,7 +23,7 @@ We aim to:
 
 ## Using this repository
 - Browse the catalog in the [Wiki](../../wiki) for the latest packs and guidance.
-- Packs live under `packs/<pack-name>/` (current: `react-pack`, `python-pack`). Each pack includes `metadata.yaml`, `README.md`, `LICENSE`, and a `templates/` folder containing item folders listed in `metadata.yaml:contents`.
+- Packs live under `packs/<pack-name>/` (current: `react-pack`, `python-pack`, `nodejs-pack`, `go-pack`, `vue-pack`, `svelte-pack`). Each pack includes `metadata.yaml`, `README.md`, `LICENSE`, and a `templates/` folder containing item folders listed in `metadata.yaml:contents`.
 - Releases publish one ZIP per pack **and** a `packs-manifest.json` that lists name, description, version, license, technology, download filename, and SHA-256 checksum. ProjectHub reads this manifest to show pack details without downloading ZIPs.
 - Current packs do **not** use per-template metadata; everything is declared in the pack’s `metadata.yaml` with `type` (`template` or `workspace`) and `path` (relative to the pack root).
 - Standalone items outside packs are not used at the moment; contribute via packs unless instructed otherwise.
@@ -31,10 +31,14 @@ We aim to:
 
 ## Current packs (this repo)
 
-| Pack         | Description                                | Version |
-| ------------ | ------------------------------------------ | ------- |
-| react-pack   | React-focused assets including .gitignore  | 0.2.2   |
-| python-pack  | Python-focused assets including .gitignore | 0.2.2   |
+| Pack         | Category  | Description                                             | Version |
+| ------------ | --------- | ------------------------------------------------------- | ------- |
+| react-pack   | Frontend  | React + TypeScript workspace with Vite                  | 0.2.2   |
+| python-pack  | Backend   | Python workspace with ruff, mypy, and pytest            | 0.2.2   |
+| nodejs-pack  | Backend   | Node.js + TypeScript workspace with Express             | 0.2.2   |
+| go-pack      | Backend   | Go workspace with standard layout and golangci-lint     | 0.2.2   |
+| vue-pack     | Frontend  | Vue 3 + TypeScript workspace with Vite                  | 0.2.2   |
+| svelte-pack  | Frontend  | Svelte 5 + TypeScript workspace with Vite               | 0.2.2   |
 
 ## Contributing (strict)
 1. Read the full guidelines in [CONTRIBUTING.md](CONTRIBUTING.md) and the detailed steps in the Wiki’s “Submission Guide”.

@@ -1,0 +1,28 @@
+name: go-pack
+category: Backend
+technology: go
+summary: Modern Go workspace with standard project layout and golangci-lint
+contents:
+  - type: template
+    path: templates/go-gitignore
+    files:
+      - source: go.gitignore
+        target: .gitignore
+  - type: workspace
+    path: templates/go-workspace
+    files:
+      - source: go.mod
+        target: go.mod
+      - source: Makefile
+        target: Makefile
+      - source: .golangci.yml
+        target: .golangci.yml
+      - source: cmd/app/main.go
+        target: cmd/app/main.go
+      - source: internal/.gitkeep
+        target: internal/.gitkeep
+version: 0.2.2
+license: MIT
+compatibility: "ProjectHub >=1.0"
+maintainer: "ProjectHub Team <maintainers@projecthub.dev>"
+tags: [go, golang, golangci-lint]
