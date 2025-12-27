@@ -24,7 +24,6 @@ jobs:
           echo "tag=v$VERSION" >> $GITHUB_OUTPUT
 
       - name: Generate release notes
-        id: notes
         run: |
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           if [ -z "$LAST_TAG" ]; then
@@ -34,8 +33,6 @@ jobs:
           fi
 
           {
-            echo "notes<<EOF"
-
             FEATURES=$(git log $RANGE --pretty=format:"- %s" --grep="^feat" 2>/dev/null || true)
             if [ -n "$FEATURES" ]; then
               echo "## Features"
@@ -62,9 +59,7 @@ jobs:
               echo "## Other Changes"
               echo "$OTHERS"
             fi
-
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
+          } > release-notes.md
 
       - name: Package packs as ZIPs
         run: |
@@ -148,5 +143,5 @@ jobs:
             dist/packs-manifest.json \
             --repo "$GITHUB_REPOSITORY" \
             --title "$TAG" \
-            --notes "${{ steps.notes.outputs.notes }}" \
+            --notes-file release-notes.md \
             --latest
