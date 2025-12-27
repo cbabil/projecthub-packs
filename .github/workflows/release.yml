@@ -9,9 +9,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout
+        run: |
+          git clone --depth 50 https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git .
+          git fetch --tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get version from package.json
         id: version
