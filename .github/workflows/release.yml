@@ -1,24 +1,67 @@
-name: Manual Pack Release
+name: Release
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: "Release tag (e.g., v0.1.0)"
-        required: true
 
 jobs:
-  build-and-release:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout (without external action)
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from package.json
+        id: version
         run: |
-          git clone --depth 1 https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git .
-          git fetch --tags
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Generate release notes
+        id: notes
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            RANGE="HEAD"
+          else
+            RANGE="${LAST_TAG}..HEAD"
+          fi
+
+          {
+            echo "notes<<EOF"
+
+            FEATURES=$(git log $RANGE --pretty=format:"- %s" --grep="^feat" 2>/dev/null || true)
+            if [ -n "$FEATURES" ]; then
+              echo "## Features"
+              echo "$FEATURES"
+              echo ""
+            fi
+
+            FIXES=$(git log $RANGE --pretty=format:"- %s" --grep="^fix" 2>/dev/null || true)
+            if [ -n "$FIXES" ]; then
+              echo "## Bug Fixes"
+              echo "$FIXES"
+              echo ""
+            fi
+
+            REFACTORS=$(git log $RANGE --pretty=format:"- %s" --grep="^refactor" 2>/dev/null || true)
+            if [ -n "$REFACTORS" ]; then
+              echo "## Refactoring"
+              echo "$REFACTORS"
+              echo ""
+            fi
+
+            OTHERS=$(git log $RANGE --pretty=format:"- %s" --grep="^chore\|^docs\|^style\|^test" 2>/dev/null || true)
+            if [ -n "$OTHERS" ]; then
+              echo "## Other Changes"
+              echo "$OTHERS"
+            fi
+
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: Package packs as ZIPs
         run: |
@@ -34,6 +77,8 @@ jobs:
         run: npm install yaml
 
       - name: Generate packs manifest
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
         run: |
           node - <<'NODE'
           const fs = require('fs');
@@ -82,22 +127,23 @@ jobs:
           console.log('Manifest written with', packs.length, 'packs');
           NODE
 
+      - name: Create GitHub Release
         env:
-          RELEASE_TAG: ${{ github.event.inputs.tag }}
-
-      - name: Create GitHub Release (without external action)
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Create release with tag targeting current commit
-          # This creates the tag on GitHub if it doesn't exist
-          gh release create "$TAG" \
-            --target "${{ github.sha }}" \
-            --title "$TAG" \
-            --notes "Release $TAG" \
-            dist/*.zip \
-            dist/packs-manifest.json
-        env:
-          TAG: ${{ github.event.inputs.tag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+
+          # Delete existing release if exists
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release delete "$TAG" -y
+            git push origin :refs/tags/"$TAG" || true
+          fi
+
+          # Create release
+          gh release create "$TAG" \
+            dist/*.zip \
+            dist/packs-manifest.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$TAG" \
+            --notes "${{ steps.notes.outputs.notes }}" \
+            --latest
